@@ -1,0 +1,18 @@
+# Ignore local uploaded files but keep directory structure
+uploads/gallery/*
+!uploads/gallery/.gitkeep
+
+# Operating system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE and edit configs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
