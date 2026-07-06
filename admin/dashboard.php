@@ -48,7 +48,7 @@ $recent_uploads = $recent_stmt->fetchAll();
         <div class="card border-0 bg-white p-4 shadow-sm" style="border-radius: 16px; border-left: 5px solid var(--maroon-primary) !important;">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
-                    <h2 class="h3 fw-bold text-dark mb-1">Hello, <?php echo htmlspecialchars($_SESSION['admin_user']); ?>!</h2>
+                    <h2 class="h3 fw-bold text-dark mb-1">Hello, Ragavanthini!</h2>
                     <p class="text-muted mb-0">Here is a quick overview of your design boutique's gallery performance today.</p>
                 </div>
                 <div>

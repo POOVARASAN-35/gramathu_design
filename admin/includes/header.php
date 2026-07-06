@@ -35,8 +35,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <!-- Sidebar Navigation -->
         <aside class="sidebar-admin" id="adminSidebar">
             <div class="sidebar-header">
-                <a href="../index.php" class="sidebar-brand">
-                    <img src="../assets/images/favicon.png" alt="Gramathu Design Logo" class="brand-logo-img" style="height: 32px; width: 32px; margin-right: 10px; object-fit: contain; border-radius: 6px;">
+                <a href="../index.php" class="sidebar-brand d-flex align-items-center gap-2">
+                    <img src="../assets/images/favicon.png" alt="Gramathu Design Logo" class="brand-logo-img" style="height: 30px; width: 30px; object-fit: contain; border-radius: 4px;">
                     <span>GRAMATHU <strong class="text-warning">DESIGN</strong></span>
                 </a>
             </div>
