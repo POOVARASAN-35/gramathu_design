@@ -163,47 +163,569 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Lightbox for Gallery
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const lightbox = document.getElementById('lightboxModal');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxClose = document.getElementById('lightboxClose');
-    const lightboxCaption = document.getElementById('lightboxCaption');
+    // 6. Premium Luxury Gallery Lightbox
+    const luxuryLightbox = document.getElementById('luxuryLightbox');
+    const lightboxMainImg = document.getElementById('lightboxMainImg');
+    const lightboxImgViewport = document.getElementById('lightboxImgViewport');
+    const lightboxCloseBtn = document.getElementById('luxuryLightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const lightboxDetailBadge = document.getElementById('lightboxDetailBadge');
+    const lightboxDetailTitle = document.getElementById('lightboxDetailTitle');
+    const lightboxDetailDesc = document.getElementById('lightboxDetailDesc');
+    const lightboxThumbnailsTrack = document.getElementById('lightboxThumbnailsTrack');
+    const lightboxVisitStore = document.getElementById('lightboxVisitStore');
 
-    if (lightbox && lightboxImg && lightboxClose) {
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const img = item.querySelector('img');
-                const title = item.querySelector('h4');
-                const subtitle = item.querySelector('p');
-                
-                if (img) {
-                    lightboxImg.src = img.src;
-                    lightboxCaption.innerText = title ? `${title.innerText} - ${subtitle ? subtitle.innerText : ''}` : '';
-                    lightbox.style.display = 'flex';
-                    document.body.style.overflow = 'hidden'; // stop page scrolling
+    let visibleItems = [];
+    let currentDeckIndex = 0;
+    
+    // Zooming & Panning State Variables
+    let zoomScale = 1;
+    let panX = 0;
+    let panY = 0;
+    let isPanning = false;
+    let startPanX = 0;
+    let startPanY = 0;
+
+    const getVisibleGalleryItems = () => {
+        // Collect visible gallery items (respects active filtering)
+        return Array.from(document.querySelectorAll('.gallery-item')).filter(item => {
+            return window.getComputedStyle(item).display !== 'none';
+        });
+    };
+
+    const applyTransform = (noTransition = false) => {
+        if (!lightboxMainImg) return;
+        if (noTransition) {
+            lightboxMainImg.classList.add('no-transition');
+        } else {
+            lightboxMainImg.classList.remove('no-transition');
+        }
+        lightboxMainImg.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomScale})`;
+    };
+
+    const resetZoom = () => {
+        zoomScale = 1;
+        panX = 0;
+        panY = 0;
+        applyTransform(true);
+    };
+
+    const generateThumbnails = () => {
+        if (!lightboxThumbnailsTrack) return;
+        lightboxThumbnailsTrack.innerHTML = '';
+        
+        visibleItems.forEach((item, index) => {
+            const img = item.querySelector('img');
+            if (!img) return;
+            
+            const thumb = document.createElement('div');
+            thumb.classList.add('thumb-item');
+            if (index === currentDeckIndex) thumb.classList.add('active');
+            
+            const thumbImg = document.createElement('img');
+            thumbImg.src = img.src;
+            thumbImg.alt = `Thumbnail ${index + 1}`;
+            
+            thumb.appendChild(thumbImg);
+            
+            thumb.addEventListener('click', () => {
+                currentDeckIndex = index;
+                showImage(currentDeckIndex);
+            });
+            
+            lightboxThumbnailsTrack.appendChild(thumb);
+        });
+    };
+
+    const showImage = (index) => {
+        resetZoom();
+        
+        if (index < 0 || index >= visibleItems.length) return;
+        
+        const item = visibleItems[index];
+        const img = item.querySelector('img');
+        const title = item.querySelector('h4');
+        const desc = item.querySelector('p');
+        const badge = item.querySelector('.overlay-badge') || item.querySelector('.gallery-badge');
+        
+        if (!img || !lightboxMainImg) return;
+
+        // Apply a brief fade transition between images
+        lightboxMainImg.style.opacity = '0';
+        lightboxMainImg.style.transform = 'translate(0px, 0px) scale(0.96)';
+        
+        setTimeout(() => {
+            lightboxMainImg.src = img.src;
+            if (lightboxDetailTitle) lightboxDetailTitle.innerText = title ? title.innerText : 'Bespoke Blouse Design';
+            if (lightboxDetailDesc) lightboxDetailDesc.innerText = desc ? desc.innerText : 'Premium handcrafted blouse stitching and delicate embroidery.';
+            if (lightboxDetailBadge) lightboxDetailBadge.innerText = badge ? badge.innerText : 'Exclusive';
+            if (lightboxCounter) lightboxCounter.innerText = `${index + 1} / ${visibleItems.length}`;
+            
+            // Populate WhatsApp dynamic URL
+            const waBtn = document.querySelector('.btn-action-wa');
+            if (waBtn && title) {
+                const message = encodeURIComponent(`Hi Gramathu Design! I am viewing your gallery and love this design: "${title.innerText}". Can we discuss the custom stitching details?`);
+                waBtn.href = `https://wa.me/916369468700?text=${message}`;
+            }
+
+            // Update active state in related thumbnail strip
+            const thumbs = lightboxThumbnailsTrack ? lightboxThumbnailsTrack.querySelectorAll('.thumb-item') : [];
+            thumbs.forEach((t, i) => {
+                if (i === index) {
+                    t.classList.add('active');
+                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    t.classList.remove('active');
                 }
             });
+
+            lightboxMainImg.style.opacity = '1';
+            lightboxMainImg.style.transform = 'translate(0px, 0px) scale(1)';
+        }, 150);
+    };
+
+    const openLightbox = (clickedItem) => {
+        visibleItems = getVisibleGalleryItems();
+        const index = visibleItems.indexOf(clickedItem);
+        if (index === -1) return;
+        
+        currentDeckIndex = index;
+        
+        if (luxuryLightbox) {
+            luxuryLightbox.classList.add('open-active');
+            document.body.style.overflow = 'hidden'; // Lock body scroll
+        }
+        
+        generateThumbnails();
+        showImage(currentDeckIndex);
+    };
+
+    const closeLightbox = () => {
+        if (luxuryLightbox) {
+            luxuryLightbox.classList.remove('open-active');
+            document.body.style.overflow = 'auto'; // Unlock body scroll
+            resetZoom();
+        }
+    };
+
+    // Attach click listeners to all gallery items
+    const setupGalleryClickListeners = () => {
+        const galleryItemsList = document.querySelectorAll('.gallery-item');
+        galleryItemsList.forEach(item => {
+            // Find zoom button or full overlay to open lightbox
+            item.addEventListener('click', (e) => {
+                // If it is filtered out, do not trigger
+                if (window.getComputedStyle(item).display === 'none') return;
+                openLightbox(item);
+            });
+        });
+    };
+
+    if (luxuryLightbox) {
+        setupGalleryClickListeners();
+
+        // Close event
+        if (lightboxCloseBtn) {
+            lightboxCloseBtn.addEventListener('click', closeLightbox);
+        }
+
+        // Close on background click
+        const backdrop = luxuryLightbox.querySelector('.lightbox-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', closeLightbox);
+        }
+
+        // Navigation actions
+        if (lightboxNext) {
+            lightboxNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentDeckIndex >= visibleItems.length - 1) {
+                    currentDeckIndex = 0; // wrap around to first
+                } else {
+                    currentDeckIndex++;
+                }
+                showImage(currentDeckIndex);
+            });
+        }
+
+        if (lightboxPrev) {
+            lightboxPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (currentDeckIndex <= 0) {
+                    currentDeckIndex = visibleItems.length - 1; // wrap around to last
+                } else {
+                    currentDeckIndex--;
+                }
+                showImage(currentDeckIndex);
+            });
+        }
+
+        // Keyboard actions
+        document.addEventListener('keydown', (e) => {
+            if (!luxuryLightbox.classList.contains('open-active')) return;
+            
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowRight') {
+                if (currentDeckIndex >= visibleItems.length - 1) {
+                    currentDeckIndex = 0;
+                } else {
+                    currentDeckIndex++;
+                }
+                showImage(currentDeckIndex);
+            } else if (e.key === 'ArrowLeft') {
+                if (currentDeckIndex <= 0) {
+                    currentDeckIndex = visibleItems.length - 1;
+                } else {
+                    currentDeckIndex--;
+                }
+                showImage(currentDeckIndex);
+            }
         });
 
-        // Close functions
-        const closeLightbox = () => {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto'; // restore scroll
+        // Double Click Zoom
+        if (lightboxImgViewport && lightboxMainImg) {
+            lightboxImgViewport.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                if (zoomScale === 1) {
+                    zoomScale = 2;
+                    // Center pan on double-clicked area
+                    const rect = lightboxImgViewport.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left - rect.width / 2;
+                    const clickY = e.clientY - rect.top - rect.height / 2;
+                    panX = -clickX * 0.5;
+                    panY = -clickY * 0.5;
+                } else {
+                    resetZoom();
+                }
+                applyTransform();
+            });
+
+            // Mouse Wheel Zoom
+            lightboxImgViewport.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const zoomFactor = 0.1;
+                const oldScale = zoomScale;
+                
+                if (e.deltaY < 0) {
+                    // Zoom In
+                    zoomScale = Math.min(3, zoomScale + zoomFactor);
+                } else {
+                    // Zoom Out
+                    zoomScale = Math.max(1, zoomScale - zoomFactor);
+                }
+
+                // Adjust pan when zooming to keep focal point
+                if (zoomScale === 1) {
+                    panX = 0;
+                    panY = 0;
+                } else {
+                    // adjust offsets based on scale
+                    const rect = lightboxImgViewport.getBoundingClientRect();
+                    const mouseX = e.clientX - rect.left - rect.width / 2;
+                    const mouseY = e.clientY - rect.top - rect.height / 2;
+                    panX -= mouseX * (zoomScale - oldScale) * 0.5;
+                    panY -= mouseY * (zoomScale - oldScale) * 0.5;
+                }
+
+                applyTransform();
+            }, { passive: false });
+
+            // Drag and Pan Controls
+            lightboxImgViewport.addEventListener('mousedown', (e) => {
+                if (zoomScale <= 1) return;
+                e.preventDefault();
+                isPanning = true;
+                lightboxImgViewport.classList.add('dragging');
+                startPanX = e.clientX - panX;
+                startPanY = e.clientY - panY;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isPanning) return;
+                panX = e.clientX - startPanX;
+                panY = e.clientY - startPanY;
+                applyTransform(true); // immediate dragging with no transition
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isPanning) {
+                    isPanning = false;
+                    lightboxImgViewport.classList.remove('dragging');
+                }
+            });
+
+            lightboxImgViewport.addEventListener('mouseleave', () => {
+                if (isPanning) {
+                    isPanning = false;
+                    lightboxImgViewport.classList.remove('dragging');
+                }
+            });
+        }
+
+        // Swipe Gestures on Mobile
+        let startSwipeX = 0;
+        let startSwipeY = 0;
+        let isSwiping = false;
+
+        const imagePane = luxuryLightbox.querySelector('.lightbox-image-pane');
+        if (imagePane) {
+            imagePane.addEventListener('touchstart', (e) => {
+                if (zoomScale > 1) return; // disable swiping when zoomed in
+                startSwipeX = e.touches[0].clientX;
+                startSwipeY = e.touches[0].clientY;
+                isSwiping = true;
+            }, { passive: true });
+
+            imagePane.addEventListener('touchend', (e) => {
+                if (!isSwiping || zoomScale > 1) return;
+                isSwiping = false;
+                const endSwipeX = e.changedTouches[0].clientX;
+                const endSwipeY = e.changedTouches[0].clientY;
+                
+                const diffSwipeX = startSwipeX - endSwipeX;
+                const diffSwipeY = startSwipeY - endSwipeY;
+                
+                // Ensure swipe is mostly horizontal
+                if (Math.abs(diffSwipeX) > 60 && Math.abs(diffSwipeY) < 40) {
+                    if (diffSwipeX > 0) {
+                        // Swipe left = Next
+                        if (currentDeckIndex >= visibleItems.length - 1) {
+                            currentDeckIndex = 0;
+                        } else {
+                            currentDeckIndex++;
+                        }
+                    } else {
+                        // Swipe right = Prev
+                        if (currentDeckIndex <= 0) {
+                            currentDeckIndex = visibleItems.length - 1;
+                        } else {
+                            currentDeckIndex--;
+                        }
+                    }
+                    showImage(currentDeckIndex);
+                }
+            }, { passive: true });
+        }
+
+        // Anchor Visit Store to Contact section mapping
+        if (lightboxVisitStore) {
+            lightboxVisitStore.addEventListener('click', () => {
+                closeLightbox();
+            });
+        }
+    }
+
+    // 7. Premium Luxury Reviews Carousel
+    const carouselWrapper = document.querySelector('.reviews-carousel-wrapper');
+    const track = document.querySelector('.carousel-track');
+    const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const dotsContainer = document.querySelector('.carousel-dots-container');
+
+    if (carouselWrapper && track && slides.length > 0) {
+        let currentIndex = 0;
+        let visibleSlides = 3;
+        let slideInterval;
+
+        const updateVisibleSlides = () => {
+            if (window.innerWidth >= 1200) {
+                visibleSlides = 3;
+            } else if (window.innerWidth >= 768) {
+                visibleSlides = 2;
+            } else {
+                visibleSlides = 1;
+            }
         };
 
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                closeLightbox();
+        const getMaxIndex = () => {
+            return Math.max(0, slides.length - visibleSlides);
+        };
+
+        const createDots = () => {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            const maxIndex = getMaxIndex();
+            for (let i = 0; i <= maxIndex; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('carousel-dot');
+                if (i === currentIndex) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateCarousel();
+                    resetTimer();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        };
+
+        const updateDots = () => {
+            const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
+            dots.forEach((dot, idx) => {
+                if (idx === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        };
+
+        const updateCarousel = () => {
+            const maxIndex = getMaxIndex();
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+            
+            const slideWidthPercentage = 100 / visibleSlides;
+            const translateAmount = -currentIndex * slideWidthPercentage;
+            track.style.transform = `translateX(${translateAmount}%)`;
+            updateDots();
+        };
+
+        const nextSlide = () => {
+            const maxIndex = getMaxIndex();
+            if (currentIndex >= maxIndex) {
+                currentIndex = 0; // Infinite wrap-around to start
+            } else {
+                currentIndex++;
+            }
+            updateCarousel();
+        };
+
+        const prevSlide = () => {
+            const maxIndex = getMaxIndex();
+            if (currentIndex <= 0) {
+                currentIndex = maxIndex; // Infinite wrap-around to end
+            } else {
+                currentIndex--;
+            }
+            updateCarousel();
+        };
+
+        const startTimer = () => {
+            slideInterval = setInterval(nextSlide, 5000);
+        };
+
+        const stopTimer = () => {
+            clearInterval(slideInterval);
+        };
+
+        const resetTimer = () => {
+            stopTimer();
+            startTimer();
+        };
+
+        // Navigation actions
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetTimer();
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetTimer();
+            });
+        }
+
+        // Hover pause
+        carouselWrapper.addEventListener('mouseenter', stopTimer);
+        carouselWrapper.addEventListener('mouseleave', startTimer);
+
+        // Mobile Swipe Support
+        let startX = 0;
+        let isSwiping = false;
+
+        carouselWrapper.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isSwiping = true;
+            stopTimer();
+        }, { passive: true });
+
+        carouselWrapper.addEventListener('touchmove', (e) => {
+            if (!isSwiping) return;
+            const currentX = e.touches[0].clientX;
+            const diffX = startX - currentX;
+            if (Math.abs(diffX) > 10) {
+                // Prevent vertical scroll if horizontal swipe is intended
+            }
+        }, { passive: true });
+
+        carouselWrapper.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            isSwiping = false;
+            const endX = e.changedTouches[0].clientX;
+            const diffX = startX - endX;
+            if (diffX > 50) {
+                nextSlide();
+            } else if (diffX < -50) {
+                prevSlide();
+            }
+            startTimer();
+        }, { passive: true });
+
+        // Responsiveness layout watch
+        window.addEventListener('resize', () => {
+            const prevVisible = visibleSlides;
+            updateVisibleSlides();
+            if (prevVisible !== visibleSlides) {
+                createDots();
+                updateCarousel();
             }
         });
-        
-        // Escape key close
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && lightbox.style.display === 'flex') {
-                closeLightbox();
-            }
+
+        // Initialize Slider
+        updateVisibleSlides();
+        createDots();
+        updateCarousel();
+        startTimer();
+    }
+
+    // 8. Animated Stats Counter using IntersectionObserver
+    const counters = document.querySelectorAll('.counter-num');
+    if (counters.length > 0) {
+        const countUp = (el) => {
+            const target = parseInt(el.getAttribute('data-target'), 10);
+            const duration = 2000; // 2 seconds animation duration
+            const startTime = performance.now();
+
+            const updateCount = (now) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Ease out quad
+                const ease = progress * (2 - progress);
+                const current = Math.floor(ease * target);
+                
+                el.innerText = current;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                } else {
+                    el.innerText = target;
+                }
+            };
+            requestAnimationFrame(updateCount);
+        };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    countUp(el);
+                    observer.unobserve(el); // only animate once
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        counters.forEach(counter => {
+            counterObserver.observe(counter);
         });
     }
 });

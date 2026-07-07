@@ -394,94 +394,417 @@ require_once __DIR__ . '/includes/db.php';
         </div>
     </section>
 
-    <!-- LIGHTBOX MODAL -->
-    <div class="lightbox-modal" id="lightboxModal">
-        <div class="lightbox-content">
-            <span class="lightbox-close" id="lightboxClose">&times;</span>
-            <img src="" alt="Enlarged Blouse Design" id="lightboxImg">
-            <div class="lightbox-caption" id="lightboxCaption"></div>
+    <!-- PREMIUM LUXURY LIGHTBOX MODAL -->
+    <div class="luxury-lightbox" id="luxuryLightbox">
+        <div class="lightbox-backdrop"></div>
+        
+        <!-- Top controls bar -->
+        <div class="lightbox-top-bar">
+            <div class="lightbox-counter" id="lightboxCounter">1 / 12</div>
+            <button class="lightbox-close-btn" id="luxuryLightboxClose" aria-label="Close gallery">&times;</button>
+        </div>
+
+        <div class="lightbox-main-wrapper">
+            <!-- Left Pane: Image area -->
+            <div class="lightbox-image-pane">
+                <!-- Navigation Arrows -->
+                <button class="lightbox-arrow arrow-left" id="lightboxPrev" aria-label="Previous image">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                
+                <div class="lightbox-img-viewport" id="lightboxImgViewport">
+                    <img src="" alt="Premium Design Showcase" id="lightboxMainImg" class="lightbox-img">
+                </div>
+                
+                <button class="lightbox-arrow arrow-right" id="lightboxNext" aria-label="Next image">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Right Pane: Details area -->
+            <div class="lightbox-details-pane">
+                <div class="details-content">
+                    <span class="details-badge" id="lightboxDetailBadge">Bridal Wear</span>
+                    <h3 class="details-title" id="lightboxDetailTitle">Red Silk Bridal Blouse</h3>
+                    
+                    <div class="details-divider">
+                        <svg viewBox="0 0 100 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 5 H40 L45 2 L50 8 L55 2 L60 5 H100" stroke="var(--gold-primary)" stroke-width="0.8" fill="none"/>
+                        </svg>
+                    </div>
+                    
+                    <p class="details-desc" id="lightboxDetailDesc">
+                        Exquisite hand-stitched bridal blouse featuring premium Aari embroidery, zardozi needlework, and beautiful gold stone embellishments.
+                    </p>
+                </div>
+                
+                <!-- Action Buttons inside details pane -->
+                <div class="details-actions">
+                    <!-- <a href="tel:6369468700" class="btn-action btn-action-phone">
+                        <i class="fa-solid fa-phone"></i> <span>Call Now</span>
+                    </a> -->
+                    <a href="https://wa.me/916369468700?text=I%27m%20interested%20in%20one%20of%20your%20gallery%20designs!" target="_blank" class="btn-action btn-action-wa">
+                        <i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span>
+                    </a>
+                    <a href="#contact" class="btn-action btn-action-visit" id="lightboxVisitStore">
+                        <i class="fa-solid fa-location-dot"></i> <span>Visit Our Store</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom: Related Gallery Thumbnails -->
+        <div class="lightbox-thumbnails-wrapper">
+            <div class="lightbox-thumbnails" id="lightboxThumbnailsTrack">
+                <!-- Thumbnail items will be dynamically injected by JS -->
+            </div>
         </div>
     </div>
 
     <!-- TESTIMONIAL SECTION -->
-    <section id="testimonials" class="section-dark">
+    <section id="testimonials" class="reviews-section">
+        <!-- Floating Floral and Embroidery Motifs -->
+        <div class="luxury-decorations">
+            <div class="decor-motif motif-top-left" data-aos="fade-down-right">
+                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                    <path d="M50 10 C50 10, 40 35, 10 50 C40 65, 50 90, 50 90 C50 90, 60 65, 90 50 C60 35, 50 10, 50 10 Z" stroke-width="1"/>
+                    <circle cx="50" cy="50" r="12" stroke-width="1"/>
+                    <path d="M50 0 V100 M0 50 H100" stroke-width="0.5" stroke-dasharray="2 2"/>
+                </svg>
+            </div>
+            <div class="decor-motif motif-bottom-right" data-aos="fade-up-left">
+                <svg viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                    <path d="M50 10 C50 10, 40 35, 10 50 C40 65, 50 90, 50 90 C50 90, 60 65, 90 50 C60 35, 50 10, 50 10 Z" stroke-width="1"/>
+                    <circle cx="50" cy="50" r="12" stroke-width="1"/>
+                    <path d="M50 0 V100 M0 50 H100" stroke-width="0.5" stroke-dasharray="2 2"/>
+                </svg>
+            </div>
+            <!-- Sparkles -->
+            <div class="sparkle sparkle-1">✦</div>
+            <div class="sparkle sparkle-2">✦</div>
+            <div class="sparkle sparkle-3">✦</div>
+            <div class="sparkle sparkle-4">✦</div>
+        </div>
+
         <div class="container">
-            <div class="section-header">
-                <h2 data-aos="fade-up">Client Reviews</h2>
-                <p data-aos="fade-up" data-aos-delay="200">Hear what our beautiful brides and festive clients say about our fit and design.</p>
+            <div class="section-header text-center" data-aos="fade-up">
+                <div class="reviews-badge-wrapper mb-3">
+                    <span class="reviews-badge">
+                        <i class="fa-solid fa-star gold-star animate-pulse"></i> Creating Beautiful Blouse Designs for Every Occasion
+                    </span>
+                </div>
+                <h2 class="reviews-title mt-2">Every Stitch Tells a Beautiful Story</h2>
+                <div class="luxury-divider mb-4">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C12 2 9 8 3 12C9 16 12 22 12 22C12 22 15 16 21 12C15 8 12 2 12 2Z" stroke="var(--gold-primary)" stroke-width="1.5" fill="none"/>
+                            <circle cx="12" cy="12" r="3" fill="var(--gold-primary)"/>
+                        </svg>
+                    </div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="reviews-subtitle mx-auto">
+                    Discover why brides and fashion lovers trust Gramathu Design for elegant blouse stitching, handcrafted Aari embroidery, and exceptional customer service.
+                </p>
+                
+                <!-- Average Rating Block -->
+                <!-- <div class="rating-summary-box mt-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="rating-stars mb-1">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <h3 class="rating-value mb-0">4.9 <span>Average Rating</span></h3>
+                    <p class="rating-count mb-0">Based on 250+ Happy Customers</p>
+                </div> -->
             </div>
-            
-            <div class="row g-4">
-                <!-- Testimonial 1 -->
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="testimonial-card">
-                        <i class="fa-solid fa-quote-right quote-icon"></i>
-                        <div>
-                            <div class="stars-wrapper">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+
+            <!-- Testimonial Carousel -->
+            <div class="reviews-carousel-wrapper mt-5" data-aos="fade-up" data-aos-delay="200">
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        <!-- Review Card 1 -->
+                        <div class="carousel-slide">
+                            <div class="review-card">
+                                <div class="card-glass-glow"></div>
+                                <i class="fa-solid fa-quote-right quote-icon"></i>
+                                <div class="review-header">
+                                    <div class="client-avatar-wrapper">
+                                        <img src="assets/images/customer_priya.png" alt="Priya Raman" class="client-img">
+                                        <div class="verified-badge">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-meta">
+                                        <h4 class="client-name">Priya Raman</h4>
+                                        <p class="client-loc">Chennai • Verified Bride</p>
+                                        <div class="card-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    <p class="review-text">"Gramathu Design stitched my bridal blouse with the most intricate gold Aari work. The fit was absolutely perfect, and the customer service was exceptional!"</p>
+                                </div>
+                                <div class="review-footer">
+                                    <span class="review-date"><i class="fa-regular fa-calendar me-1"></i> June 15, 2026</span>
+                                </div>
                             </div>
-                            <p class="testimonial-text">"The stitching quality is outstanding. My bridal blouse looked absolutely beautiful. The gold work matched my wedding saree perfectly!"</p>
                         </div>
-                        <div class="client-info">
-                            <div class="client-avatar">K</div>
-                            <div class="client-details">
-                                <h4>Karthika Devi</h4>
-                                <p>Sivagiri bride</p>
+
+                        <!-- Review Card 2 -->
+                        <div class="carousel-slide">
+                            <div class="review-card">
+                                <div class="card-glass-glow"></div>
+                                <i class="fa-solid fa-quote-right quote-icon"></i>
+                                <div class="review-header">
+                                    <div class="client-avatar-wrapper">
+                                        <img src="assets/images/customer_divya.png" alt="Divya Krishnan" class="client-img">
+                                        <div class="verified-badge">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-meta">
+                                        <h4 class="client-name">Divya Krishnan</h4>
+                                        <p class="client-loc">Coimbatore • Bridal Client</p>
+                                        <div class="card-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    <p class="review-text">"I am amazed by the attention to detail. The peacock motif on my silk saree blouse was hand-embroidered to perfection. Truly premium craftsmanship!"</p>
+                                </div>
+                                <div class="review-footer">
+                                    <span class="review-date"><i class="fa-regular fa-calendar me-1"></i> May 28, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 3 -->
+                        <div class="carousel-slide">
+                            <div class="review-card">
+                                <div class="card-glass-glow"></div>
+                                <i class="fa-solid fa-quote-right quote-icon"></i>
+                                <div class="review-header">
+                                    <div class="client-avatar-wrapper">
+                                        <img src="assets/images/customer_priya.png" alt="Karthika Devi" class="client-img">
+                                        <div class="verified-badge">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-meta">
+                                        <h4 class="client-name">Karthika Devi</h4>
+                                        <p class="client-loc">Sivagiri • Verified Bride</p>
+                                        <div class="card-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    <p class="review-text">"The stitching quality is outstanding. My bridal blouse looked absolutely beautiful. The gold work matched my wedding saree perfectly!"</p>
+                                </div>
+                                <div class="review-footer">
+                                    <span class="review-date"><i class="fa-regular fa-calendar me-1"></i> April 12, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 4 -->
+                        <div class="carousel-slide">
+                            <div class="review-card">
+                                <div class="card-glass-glow"></div>
+                                <i class="fa-solid fa-quote-right quote-icon"></i>
+                                <div class="review-header">
+                                    <div class="client-avatar-wrapper">
+                                        <img src="assets/images/customer_divya.png" alt="Ragavi Priya" class="client-img">
+                                        <div class="verified-badge">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-meta">
+                                        <h4 class="client-name">Ragavi Priya</h4>
+                                        <p class="client-loc">Sivagiri • Festive Client</p>
+                                        <div class="card-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    <p class="review-text">"Perfect fitting and amazing Aari work. I got so many compliments on Pongal for the custom design they made. Thank you so much!"</p>
+                                </div>
+                                <div class="review-footer">
+                                    <span class="review-date"><i class="fa-regular fa-calendar me-1"></i> January 18, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 5 -->
+                        <div class="carousel-slide">
+                            <div class="review-card">
+                                <div class="card-glass-glow"></div>
+                                <i class="fa-solid fa-quote-right quote-icon"></i>
+                                <div class="review-header">
+                                    <div class="client-avatar-wrapper">
+                                        <img src="assets/images/customer_priya.png" alt="Aishwarya Anand" class="client-img">
+                                        <div class="verified-badge">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-meta">
+                                        <h4 class="client-name">Aishwarya Anand</h4>
+                                        <p class="client-loc">Madurai • Bridal Client</p>
+                                        <div class="card-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    <p class="review-text">"Highly recommended for bridal and festive collections. Their attention to detail on sleeve Aari embroidery is next level!"</p>
+                                </div>
+                                <div class="review-footer">
+                                    <span class="review-date"><i class="fa-regular fa-calendar me-1"></i> March 5, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Card 6 -->
+                        <div class="carousel-slide">
+                            <div class="review-card">
+                                <div class="card-glass-glow"></div>
+                                <i class="fa-solid fa-quote-right quote-icon"></i>
+                                <div class="review-header">
+                                    <div class="client-avatar-wrapper">
+                                        <img src="assets/images/customer_divya.png" alt="Meera Nair" class="client-img">
+                                        <div class="verified-badge">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-meta">
+                                        <h4 class="client-name">Meera Nair</h4>
+                                        <p class="client-loc">Bangalore • Verified Customer</p>
+                                        <div class="card-stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    <p class="review-text">"The rose gold stone work on my reception blouse was a showstopper. They understood exactly what I wanted and delivered it ahead of schedule!"</p>
+                                </div>
+                                <div class="review-footer">
+                                    <span class="review-date"><i class="fa-regular fa-calendar me-1"></i> June 30, 2026</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Testimonial 2 -->
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="testimonial-card">
-                        <i class="fa-solid fa-quote-right quote-icon"></i>
-                        <div>
-                            <div class="stars-wrapper">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-nav-btn prev-btn" aria-label="Previous review">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="carousel-nav-btn next-btn" aria-label="Next review">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <!-- Carousel Indicators -->
+                <div class="carousel-dots-container"></div>
+            </div>
+
+            <!-- TRUST SECTION (STATISTICS) -->
+            <!-- <div class="trust-stats-section mt-5 pt-4">
+                <div class="row g-4 justify-content-center">
+                    <!-- Stat Card 1 --
+                    <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-users-line"></i>
                             </div>
-                            <p class="testimonial-text">"Perfect fitting and amazing Aari work. I got so many compliments on Pongal for the custom design they made. Thank you so much!"</p>
+                            <h3 class="stat-value"><span class="counter-num" data-target="250">0</span>+</h3>
+                            <p class="stat-label">Happy Customers</p>
                         </div>
-                        <div class="client-info">
-                            <div class="client-avatar">R</div>
-                            <div class="client-details">
-                                <h4>Ragavi Priya</h4>
-                                <p>Festive Wear Client</p>
+                    </div>
+                    <!-- Stat Card 2 --
+                    <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-scissors"></i>
                             </div>
+                            <h3 class="stat-value"><span class="counter-num" data-target="500">0</span>+</h3>
+                            <p class="stat-label">Designer Blouses Stitched</p>
+                        </div>
+                    </div>
+                    <!-- Stat Card 3 --
+                    <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                            <h3 class="stat-value"><span class="counter-num" data-target="150">0</span>+</h3>
+                            <p class="stat-label">Bridal Collections</p>
+                        </div>
+                    </div>
+                    <!-- Stat Card 4 --
+                    <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="400">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <h3 class="stat-value"><span class="counter-num" data-target="5">0</span>+</h3>
+                            <p class="stat-label">Years of Craftsmanship</p>
                         </div>
                     </div>
                 </div>
-                <!-- Testimonial 3 -->
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="testimonial-card">
-                        <i class="fa-solid fa-quote-right quote-icon"></i>
-                        <div>
-                            <div class="stars-wrapper">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <p class="testimonial-text">"Highly recommended for bridal and festive collections. Their attention to detail on sleeve Aari embroidery is next level!"</p>
-                        </div>
-                        <div class="client-info">
-                            <div class="client-avatar">A</div>
-                            <div class="client-details">
-                                <h4>Aishwarya Anand</h4>
-                                <p>Bridal Client</p>
-                            </div>
+            </div> -->
+
+            <!-- BOTTOM CALL TO ACTION -->
+            <div class="reviews-cta-banner mt-5" data-aos="zoom-in">
+                <div class="cta-banner-pattern"></div>
+                <div class="row align-items-center justify-content-between p-4 p-md-5 relative-content">
+                    <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
+                        <h3 class="cta-heading mb-3">Your Dream Blouse Starts Here</h3>
+                        <p class="cta-desc mb-0">Let Gramathu Design create a masterpiece designed exclusively for your special occasion.</p>
+                    </div>
+                    <div class="col-lg-4 text-center text-lg-end">
+                        <div class="cta-actions">
+                            <a href="https://whatsapp.com/channel/0029VbDFeYJ30LKIkbZJhx0k" target="_blank" class="btn btn-gold py-3 px-4 btn-pulse me-md-2 mb-2 mb-md-0">
+                                <i class="fa-solid fa-calendar-check me-2"></i>Book Your Design
+                            </a>
+                            <a href="#contact" class="btn btn-outline-white py-3 px-4 mb-2 mb-md-0">
+                                <i class="fa-solid fa-envelope me-2"></i>Contact Us
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
