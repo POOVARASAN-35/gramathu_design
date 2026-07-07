@@ -4,27 +4,27 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// $db_host = 'localhost';
-// $db_user = 'root';
-// $db_pass = '';
-// $db_name = 'gramathu_design';
-   $db_host = 'sql104.infinityfree.com';
-    $db_user = 'if0_42349178';
-    $db_pass = 'UmNxhuu8BP';
-    $db_name = 'if0_42349178_gramathu';
+$db_host = 'localhost';
+$db_user = 'root';
+$db_pass = '';
+$db_name = 'gramathu_design';
+// $db_host = 'sql104.infinityfree.com';
+// $db_user = 'if0_42349178';
+// $db_pass = 'UmNxhuu8BP';
+// $db_name = 'if0_42349178_gramathu';
 
 try {
     // 1. Establish connection to MySQL server (without selecting DB first)
-    // $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass, [
     $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass, [
+    // $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8mb4", $db_user, $db_pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
 
     // 2. Automatically create database if not exists
-    // $pdo->exec("CREATE DATABASE IF NOT EXISTS `$db_name` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
-    // $pdo->exec("USE `$db_name`;");
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$db_name` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;");
+    $pdo->exec("USE `$db_name`;");
 
     // 3. Automatically create tables if they do not exist
     $pdo->exec("CREATE TABLE IF NOT EXISTS admin_users (

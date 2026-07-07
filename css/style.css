@@ -209,7 +209,17 @@ img {
     transition: var(--transition-smooth);
 }
 
-.navbar-brand-premium:hover .brand-logo-img {
+.login-brand-logo-img {
+    height: 42px;
+    width: 42px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 2px solid var(--gold-primary);
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.25);
+    transition: var(--transition-smooth);
+}
+
+.navbar-brand-premium:hover .brand-logo-img .login-brand-logo-img {
     transform: rotate(360deg);
 }
 
@@ -1271,7 +1281,7 @@ section {
         font-size: 24px;
         letter-spacing: 1px;
     }
-    .brand-logo-img {
+    .brand-logo-img .login-brand-logo-img {
         height: 36px;
         width: 36px;
     }

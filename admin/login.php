@@ -220,8 +220,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Login Container -->
     <div class="login-card">
-        <div class="login-header">
-            <div class="login-logo"><img src="../assets/images/favicon.png" alt="Gramathu Design Logo" class="brand-logo-img"></div>
+         <div class="login-header text-center">
+            <div class="mb-3">
+                <img src="../assets/images/favicon.png"
+                    alt="Gramathu Design Logo"
+                    class="img-fluid rounded-circle border border-warning shadow p-2"
+                    style="width:120px; height:120px; object-fit:cover;">
+            </div>
+
             <h2 class="login-title">Gramathu Design</h2>
             <p class="login-subtitle">Boutique Administrator Login</p>
         </div>

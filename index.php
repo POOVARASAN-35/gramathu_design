@@ -138,7 +138,7 @@ require_once __DIR__ . '/includes/db.php';
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="about-text">
                         <span class="about-title-small d-block">✦ About Section</span>
-                        <h2 class="mt-2 mb-3" style="font-size: 42px; line-height: 1.25; font-family: var(--font-heading); color: var(--maroon-dark);">Handcrafted Bridal<br>Elegance Since 2018</h2>
+                        <h2 class="mt-2 mb-3" style="font-size: 42px; line-height: 1.25; font-family: var(--font-heading); color: var(--maroon-dark);">Handcrafted Bridal<br>Elegance Since 2023</h2>
                         <p class="about-lead" style="font-size: 20px; line-height: 1.4; color: var(--maroon-primary); font-family: var(--font-heading); font-style: italic; margin-bottom: 22px;">Bespoke Bridal Design Stitching & Aari Embroidery Studio</p>
                         <div class="section-divider mb-4" style="width: 80px; height: 3px; background: var(--gold-primary); border-radius: 2px;"></div>
                         <p>Welcome to <strong>Gramathu Design</strong>, where custom sewing traditions meet modern luxury. Based in Sivagiri, Tamil Nadu, we specialize in high-end women's designer blouses with a special focus on bridal wear and festive collections.</p>
@@ -291,7 +291,7 @@ require_once __DIR__ . '/includes/db.php';
                             <i class="fa-solid fa-ruler-combined"></i>
                         </div>
                         <h3>Perfect Fit Guarantee</h3>
-                        <p>We prioritize correct measurement techniques and trial adjustments. If a design needs tweaks, our post-stitching service guarantees a custom fit for you.</p>
+                        <p>We prioritize correct measurement techniques and trial adjustments. If a design needs weaks, our post-stitching service guarantees a custom fit for you.</p>
                     </div>
                 </div>
             </div>
